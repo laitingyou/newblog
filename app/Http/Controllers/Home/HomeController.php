@@ -5,7 +5,7 @@
     use Illuminate\Http\Request;
     use App\Model\User;
     use Psy\Util\Json;
-
+    use Illuminate\Http\Response;
     class HomeController extends Controller
 {
 	public function index(){
@@ -15,7 +15,7 @@
 //        foreach ($all as $flight) {
 //            echo $flight->name;
 //        }
-//        return 1231;
+        return Response()->json(['status'=>200,'name'=>'LaravelAcademy','passwd'=>'LaravelAcademy.org']);
 	}
 	public function rename(Request $request){
 
