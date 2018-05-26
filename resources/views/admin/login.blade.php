@@ -10,7 +10,7 @@
     <meta name="description" content="scclui为轻量级的网站后台管理系统模版。">
     <title>首页</title>
 
-    <link rel="stylesheet"  href="{{$static('/css/layui.css')}}">
+    <link rel="stylesheet"  href="{{$static('/layui/css/layui.css')}}">
     <link rel="stylesheet" href="{{$static('/css/sccl.css')}}">
 
 </head>
@@ -18,22 +18,23 @@
 <body class="login-bg">
 <div class="login-box">
     <header>
-        <h1>框架后台管理系统</h1>
+        <h1>后台管理系统</h1>
     </header>
     <div class="login-main">
-        <form action="/manage/login" class="layui-form" method="post">
+        <div class="layui-form" method="post">
+            @csrf
             <input name="__RequestVerificationToken" type="hidden" value="">
             <div class="layui-form-item">
                 <label class="login-icon">
                     <i class="layui-icon"></i>
                 </label>
-                <input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="这里输入登录名" class="layui-input">
+                <input id="userName" type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="这里输入登录名" class="layui-input">
             </div>
             <div class="layui-form-item">
                 <label class="login-icon">
                     <i class="layui-icon"></i>
                 </label>
-                <input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="这里输入密码" class="layui-input">
+                <input id="password" type="password" name="password" lay-verify="password" autocomplete="off" placeholder="这里输入密码" class="layui-input">
             </div>
             <div class="layui-form-item">
                 <div class="pull-left login-remember">
@@ -41,17 +42,17 @@
 
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="switch" title="记住帐号"><div class="layui-unselect layui-form-switch"><i></i></div>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" id="login">
                     <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="login">
                         <i class="layui-icon"></i> 登录
                     </button>
                 </div>
                 <div class="clear"></div>
             </div>
-        </form>
+        </div>
     </div>
     <footer>
-        <p>xuan © www.mycodes.net</p>
+        <p>laitingyou @ outlook.out </p>
     </footer>
 </div>
 <script type="text/html" id="code-temp">
@@ -60,76 +61,34 @@
         <img id="valiCode" src="/manage/validatecode?v=636150612041789540" alt="验证码" />
     </div>
 </script>
-<script src="{{$static('/js/layui.js')}}"></script>
+<script src="{{$static('/layui/layui.js')}}"></script>
+<script src="{{$static('/js/axios.min.js')}}"></script>
+<script src="{{$static('/js/md5.min.js')}}"></script>
 <script>
-    layui.use(['layer', 'form'], function () {
-        var layer = layui.layer,
-            $ = layui.jquery,
-            form = layui.form();
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer;
 
-        form.verify({
-            userName: function (value) {
-                if (value === '')
-                    return '请输入用户名';
-            },
-            password: function (value) {
-                if (value === '')
-                    return '请输入密码';
+        document.getElementById('login').onclick=function (ev) {
+            var userName=document.getElementById('userName').value,
+                password=document.getElementById('password').value;
+            if(userName && password){
+                axios.post('/api/admin/login', {
+                    userName: userName,
+                    password: md5(password)
+                })
+                    .then(function (response) {
+                        window.location.href='/admin?uid='+response.data.uid;
+                    })
+                    .catch(function (error) {
+                        layer.alert(error);
+                    });
+            }else {
+                layer.alert('账户名或密码不能为空');
             }
-        });
-
-        var errorCount = 0;
-
-        form.on('submit(login)', function (data) {
-            window.location.href = "..common/page/index.html";
-            /*if (errorCount > 5) {
-                layer.open({
-                    title: '<img src="' + location.origin + '/Plugins/layui/images/face/7.gif" alt="[害羞]">输入验证码',
-                    type: 1,
-                    content: document.getElementById('code-temp').innerHTML,
-                    btn: ['确定'],
-                    yes: function (index, layero) {
-                        var $code = $('#code');
-                        if ($code.val() === '') {
-                            layer.msg('输入验证码啦，让我知道你是人类。');
-                            isCheck = false;
-                        } else {
-                            $('input[name=verifyCode]').val();
-                            var params = data.field;
-                            params.verifyCode = $code.val();
-                            submit($,params);
-                            layer.close(index);
-                        }
-                    },
-                    area: ['250px', '150px']
-                });
-                $('#valiCode').off('click').on('click', function () {
-                    this.src = '/manage/validatecode?v=' + new Date().getTime();
-                });
-            }else{
-                submit($,data.field);
-            }
-
-            return false;*/
-        });
-
+        }
     });
 
-    /*function submit($,params){
-        $.post('/manage/login',params , function (res) {
-            if (!res.success) {
-                if (res.data !== undefined)
-                    errorCount = res.data.errorCount
-                layer.msg(res.message,{icon:2});
-            }else
-            {
-                layer.msg(res.message,{icon:1},function(index){
-                    layer.close(index);
-                    location.href='/manage';
-                });
-            }
-        }, 'json');
-    }*/
+
 </script>
 </body>
 </html>

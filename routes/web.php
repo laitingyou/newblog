@@ -10,8 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware'=>'login'], function(){
+Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware'=>['login','web']], function(){
    Route::get('/',"IndexController@index");
 
 });
-Route::get('/admin/login',"Admin\LoginController@login")->name('login');
+Route::get('/admin/index',"Admin\LoginController@index");

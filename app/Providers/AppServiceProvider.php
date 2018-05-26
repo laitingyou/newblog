@@ -3,6 +3,7 @@
 namespace App\Providers;
 use View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
         View::share('static',function ($path){
             return  env('APP_STATIC').$path;
         });
-
+        Schema::defaultStringLength(191);
     }
 
     /**

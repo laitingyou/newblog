@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Cookie;
 use Redirect;
+use Session;
 class LoginMiddleware
 {
     /**
@@ -16,12 +17,20 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $token = Cookie::get("TOKEN");
-        if(isset($token)){
-            return $next($request);
+
+        $uid=$request->get('uid');
+        $users=Session::get('users');
+        $token = Cookie::get("user_token");
+        if($uid&&$users&&$token){
+            if($users[$uid][0]===$token){
+                return $next($request);
+            }else{
+                return Redirect::action('Admin\LoginController@index');
+            }
         }else{
-            return Redirect::action('Admin\LoginController@login',["path" =>12313]);
+            return Redirect::action('Admin\LoginController@index');
         }
+
 
     }
 }
