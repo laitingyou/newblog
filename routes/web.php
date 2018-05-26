@@ -10,17 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware'=>'login'], function(){
+   Route::get('/',"IndexController@index");
 
-// Route::get('/', function () {
-//     // return view('welcome');
-
-// });
-//Route::get('/',"Home\HomeController@index");
-Route::group(['namespace' => 'Home'], function(){
-   Route::get('/',"HomeController@index");
-   Route::get('/rename/{id}',"HomeController@rename");
-//   Route::get('/rename/{id}',function ($id){
-//       $home=new App\Http\Controllers\Home\HomeController();
-//       return $home->rename('232323');
-//   });
 });
+Route::get('/admin/login',"Admin\LoginController@login")->name('login');

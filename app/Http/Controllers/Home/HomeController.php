@@ -15,8 +15,8 @@
 //        foreach ($all as $flight) {
 //            echo $flight->name;
 //        }
-
-        dd(User::paginate(2,['*'],'page',1)->toArray());
+        return 313123123;
+//        dd(User::paginate(2,['*'],'page',1)->toArray());
 //        return Response()->json(['status'=>200,'name'=>'LaravelAcademy','passwd'=>'LaravelAcademy.org']);
 	}
 	public function rename(Request $request){
