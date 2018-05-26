@@ -12,6 +12,6 @@ class LoginController extends Controller
      */
     public function login(Request $request){
 
-        return 131233223;
+        return view('admin/login');
     }
 }

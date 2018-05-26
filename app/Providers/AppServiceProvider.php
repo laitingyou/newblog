@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-use DB;
+use View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,9 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        DB::listen(function($sql) {
-//            echo json_encode($sql);
+        View::share('static',function ($path){
+            return  env('APP_STATIC').$path;
         });
 
     }
