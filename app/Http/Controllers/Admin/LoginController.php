@@ -30,7 +30,7 @@ class LoginController extends Controller
         $users_array=json_decode(json_encode($users),true);
 
         if(count($users_array)){
-            Session::push('users.'.$users_array[0]['uid'],$password);
+            Session::put('users.'.$users_array[0]['uid'],$password);
             Session::save();
             return Response::json([
                 'msg' => '登录成功',
