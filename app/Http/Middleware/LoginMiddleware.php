@@ -17,7 +17,6 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-
         $uid=$request->get('uid');
         $users=Session::get('users');
         $token = Cookie::get("user_token");

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use DB;
 use Session;
 use Response;
+use Redirect;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +14,6 @@ class LoginController extends Controller
      * 登录页面
      */
     public function index(){
-
         return view('admin/login');
     }
     /**
@@ -43,9 +43,14 @@ class LoginController extends Controller
                 'code'=>400
             ],200);
         }
-//        Session(['user_token'=>$request->password]);
-//        $sessions = Session::get('user_token');
-//        dd($sessions);
+    }
 
+    /**
+     * 登出
+     */
+    public function loginOut(Request $request){
+        $uid=$request->get('uid');
+        $request->session()->forget('users.'.$uid);
+        return Redirect::to('/admin/index');
     }
 }

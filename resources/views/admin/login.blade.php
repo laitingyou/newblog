@@ -72,14 +72,21 @@
             var userName=document.getElementById('userName').value,
                 password=document.getElementById('password').value;
             if(userName && password){
+                var index = layer.load(2);
                 axios.post('/api/admin/login', {
                     userName: userName,
                     password: md5(password)
                 })
                     .then(function (response) {
-                        window.location.href='/admin?uid='+response.data.uid;
+                        if(response.data.code===200){
+                            window.location.href='/admin/home?uid='+response.data.uid;
+                        }else {
+                            layer.alert(response.data.msg);
+                        }
+                        layer.close(index);
                     })
                     .catch(function (error) {
+                        layer.close(index);
                         layer.alert(error);
                     });
             }else {
