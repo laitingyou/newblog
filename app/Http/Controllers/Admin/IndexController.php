@@ -9,7 +9,9 @@ class IndexController extends Controller
 {
     //
     public function index(Request $request){
-
-        return view('admin/home')->with(['uid'=>$request->get('uid')]);
+        $users=Session::get('users');
+        return view('admin/home')->with(
+            ['user'=>$users[$request->get('uid')]]
+        );
     }
 }

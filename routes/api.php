@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 Route::group(['namespace'=>'Admin','prefix'=>'admin'],function (){
-    Route::any('/login', 'LoginController@login');
+    Route::post('/login', 'LoginController@login');
+    Route::get('/getUsers', 'UserController@getUsers');
+
+
 });
 //Route::namespace('Admin')->prefix('admin')->get('/login', 'LoginController@login');

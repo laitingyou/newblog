@@ -23,11 +23,11 @@
         <ul class="header-bar">
             <li class="header-bar-role"><a href="javascript:;">超级管理员</a></li>
             <li class="header-bar-nav">
-                <a href="javascript:;">admin<i class="icon-font" style="margin-left:5px;">&#xe60c;</i></a>
+                <a href="javascript:;">{{$user[0]}}<i class="icon-font" style="margin-left:5px;">&#xe60c;</i></a>
                 <ul class="header-dropdown-menu">
                     {{--<li><a href="javascript:;">个人信息</a></li>--}}
                     {{--<li><a href="javascript:;">切换账户</a></li>--}}
-                    <li><a href="/admin/loginOut?uid={{$uid}}">退出</a></li>
+                    <li><a href="/admin/loginOut?uid={{$user[1]}}">退出</a></li>
                 </ul>
             </li>
             <li class="header-bar-nav">
@@ -60,7 +60,7 @@
             <button class="tab-btn btn-right"><i class="icon-font">&#xe60f;</i></button>
         </div>
         <div class="layout-main-body">
-            <iframe class="body-iframe" name="iframe0" width="100%" height="99%" src="home.html" frameborder="0" data-id="home.html" seamless></iframe>
+            <iframe class="body-iframe" name="iframe0" width="100%" height="99%" src="{{env('APP_URL')}}:8000/#/" frameborder="0" data-id="home.html" seamless></iframe>
         </div>
     </section>
     <div class="layout-footer">@2016 0.1 www.mycodes.net</div>
