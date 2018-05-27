@@ -73,7 +73,7 @@
                 password=document.getElementById('password').value;
             if(userName && password){
                 var index = layer.load(2);
-                axios.post('/api/admin/login', {
+                axios.post('{{env('APP_URL')}}/api/admin/login', {
                     userName: userName,
                     password: md5(password)
                 })
