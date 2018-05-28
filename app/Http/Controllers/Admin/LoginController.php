@@ -14,6 +14,8 @@ class LoginController extends Controller
      * 登录页面
      */
     public function index(){
+            $demo= '<script>alert(123)</script>';
+//            echo htmlentities($demo, ENT_QUOTES, 'UTF-8');
         return view('admin/login');
     }
     /**
