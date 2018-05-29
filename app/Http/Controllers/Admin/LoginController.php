@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use DB;
+use App\Model\User;
 use Session;
 use Response;
 use Redirect;
@@ -14,7 +14,6 @@ class LoginController extends Controller
      * 登录页面
      */
     public function index(){
-            $demo= '<script>alert(123)</script>';
 //            echo htmlentities($demo, ENT_QUOTES, 'UTF-8');
         return view('admin/login');
     }
@@ -22,22 +21,21 @@ class LoginController extends Controller
      * 登录
      */
     public function login(Request $request){
+
         $name=$request->userName;
         $password=$request->password;
-        $users = DB::table('users')->where([
+        $users = User::where([
             ['user_name', '=', $name],
             ['user_password', '=', $password],
-        ])->get();
+        ])->get()->toArray();
 
-        $users_array=json_decode(json_encode($users),true);
-
-        if(count($users_array)){
-            Session::put('users.'.$users_array[0]['uid'],[$name,$password]);
+        if(count($users)){
+            Session::put('users.'.$users[0]['uid'],[$name,$password]);
             Session::save();
             return Response::json([
                 'msg' => '登录成功',
                 'code'=>200,
-                'uid' =>$users_array[0]['uid']
+                'uid' =>$users[0]['uid']
             ],200)->cookie('user_token', $password);
         }else {
             return Response::json([
