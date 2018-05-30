@@ -30,13 +30,14 @@ class LoginController extends Controller
         ])->get()->toArray();
 
         if(count($users)){
-            Session::put('users.'.$users[0]['uid'],[$name,$password]);
+            $token=uniqid();
+            Session::put('users.'.$users[0]['uid'],[$name,$token]);
             Session::save();
             return Response::json([
                 'msg' => '登录成功',
                 'code'=>200,
                 'uid' =>$users[0]['uid']
-            ],200)->cookie('user_token', $password,10);
+            ],200)->cookie('user_token', $token ,10);
         }else {
             return Response::json([
                 'msg' => '密码错误',
