@@ -17,18 +17,28 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-
+        $path=$request->path();
+        $is_api=preg_match('/^api\//',$path);
         $uid=$request->get('uid');
         $users=Session::get('users');
         $token = Cookie::get("user_token");
+//        dd($users);
         if($uid&&$users&&$token){
             if(isset($users[$uid]) && $users[$uid][1]===$token){
                 return $next($request);
             }else{
-                return Redirect::action('Admin\LoginController@index');
+                if($is_api){
+                    return response()->json(['msg' => '未登录', 'code' => '700']);
+                }else {
+                    return Redirect::action('Admin\LoginController@index');
+                }
             }
         }else{
-            return Redirect::action('Admin\LoginController@index');
+            if($is_api){
+                return response()->json(['msg' => '未登录', 'code' => '700']);
+            }else {
+                return Redirect::action('Admin\LoginController@index');
+            }
         }
 
 

@@ -36,7 +36,7 @@ class LoginController extends Controller
                 'msg' => '登录成功',
                 'code'=>200,
                 'uid' =>$users[0]['uid']
-            ],200)->cookie('user_token', $password);
+            ],200)->cookie('user_token', $password,10);
         }else {
             return Response::json([
                 'msg' => '密码错误',

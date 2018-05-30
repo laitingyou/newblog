@@ -65,7 +65,8 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props.data)
+        console.log(window.parent.document.cookie)
+        // console.log(this.props.data)
         this.state = { data, editingKey: '' };
         this.columns = [
             {

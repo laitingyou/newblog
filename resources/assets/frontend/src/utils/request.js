@@ -1,5 +1,4 @@
 import fetch from 'dva/fetch';
-// import reactAxios from 'react-axios'
 function parseJSON(response) {
   return response.json();
 }
@@ -21,11 +20,11 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => ({ data }))
-    .catch(err => ({ err }));
-}
+// export default function request(url, options) {
+//   return fetch(url, options)
+//     .then(checkStatus)
+//     .then(parseJSON)
+//     .then(data => ({ data }))
+//     .catch(err => ({ err }));
+// }
 // export default fetch;

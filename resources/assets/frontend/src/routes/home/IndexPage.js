@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import request from '../../utils/request'
+import axios from 'axios'
 import styles from './IndexPage.css';
 import EditableTable from '../../components/table'
 // function IndexPage(state) {
@@ -22,13 +22,15 @@ class IndexPage extends React.Component{
         this.init()
     }
     init(){
-        request('http://myapp.test/api/admin/getUsers',{}).then(res=>{
-            console.log(res.data.users)
-            this.setState({
-                data:res.data.users
-            })
+      axios.get('http://myapp.test/api/admin/getUsers', {
+        params:{uid:'4bfd0e375396b'}
+        }).then(res=>{
+            console.log(res.data)
+            // this.setState({
+            //     data:res.data.users
+            // })
         }).catch(err=>{
-            console.log(err)
+            // console.log(err)
         })
     }
     render (){

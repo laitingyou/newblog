@@ -18,8 +18,10 @@ use Illuminate\Http\Request;
 //});
 Route::group(['namespace'=>'Admin','prefix'=>'admin'],function (){
     Route::post('/login', 'LoginController@login');
+
+
+});
+Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'login'],function (){
     Route::get('/getUsers', 'UserController@getUsers');
-
-
 });
 //Route::namespace('Admin')->prefix('admin')->get('/login', 'LoginController@login');
