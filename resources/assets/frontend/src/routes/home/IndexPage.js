@@ -17,20 +17,24 @@ class IndexPage extends React.Component{
         super(props);
         console.log(props.app)
         this.state = {
-            data:{}
+            data:[]
         };
-        this.init()
+        // this.init()
     }
-    init(){
+  componentDidMount(){
       axios.get('http://myapp.test/api/admin/getUsers', {
         params:{uid:'4bfd0e375396b'}
         }).then(res=>{
-            console.log(res.data)
-            // this.setState({
-            //     data:res.data.users
-            // })
-        }).catch(err=>{
-            // console.log(err)
+            if(res.data.code==200){
+              this.setState({
+                data:res.data.users
+              })
+            }else {
+              window.parent.window.location.reload()
+            }
+
+         }).catch(err=>{
+            console.log(err)
         })
     }
     render (){

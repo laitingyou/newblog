@@ -1,5 +1,6 @@
 import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
 import React from 'react'
+import axios from 'axios'
 const data = [];
 // for (let i = 0; i < 100; i++) {
 //     data.push({
@@ -65,25 +66,25 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
-        console.log(window.parent.document.cookie)
-        // console.log(this.props.data)
-        this.state = { data, editingKey: '' };
+        // console.log(window.parent.document.cookie)
+        console.log(props)
+        this.state = { editingId: '' };
         this.columns = [
             {
-                title: 'name',
-                dataIndex: 'name',
-                width: '25%',
-                editable: true,
-            },
-            {
-                title: 'age',
-                dataIndex: 'age',
+                title: 'ID',
+                dataIndex: 'id',
                 width: '15%',
                 editable: true,
             },
             {
-                title: 'address',
-                dataIndex: 'address',
+                title: '用户名',
+                dataIndex: 'user_name',
+                width: '25%',
+                editable: true,
+            },
+            {
+                title: '注册时间',
+                dataIndex: 'created_at',
                 width: '40%',
                 editable: true,
             },
@@ -91,6 +92,7 @@ class EditableTable extends React.Component {
                 title: 'operation',
                 dataIndex: 'operation',
                 render: (text, record) => {
+                  console.log(text, record)
                     const editable = this.isEditing(record);
                     return (
                         <div>
@@ -115,7 +117,7 @@ class EditableTable extends React.Component {
                   </Popconfirm>
                 </span>
                             ) : (
-                                <a onClick={() => this.edit(record.key)}>Edit</a>
+                                <a onClick={() => this.edit(record.id)}>Edit</a>
                             )}
                         </div>
                     );
@@ -123,11 +125,19 @@ class EditableTable extends React.Component {
             },
         ];
     }
+  shouldComponentUpdate(){
+      return true;
+  }
+  componentWillReceiveProps(nextProps){
+      // this.setState({
+      //   data:nextProps.data
+      // })
+    }
     isEditing = (record) => {
-        return record.key === this.state.editingKey;
+        return record.id === this.state.editingId;
     };
     edit(key) {
-        this.setState({ editingKey: key });
+        this.setState({ editingId: key });
     }
     save(form, key) {
         form.validateFields((error, row) => {
@@ -150,7 +160,7 @@ class EditableTable extends React.Component {
         });
     }
     cancel = () => {
-        this.setState({ editingKey: '' });
+        this.setState({ editingId: '' });
     };
     render() {
         const components = {
@@ -175,17 +185,20 @@ class EditableTable extends React.Component {
                 }),
             };
         });
-
+        console.log(123,this.props.data)
         return (
             <Table
                 components={components}
                 bordered
-                dataSource={this.state.data}
+                dataSource={this.props.data}
                 columns={columns}
+                rowKey="id"
                 rowClassName="editable-row"
             />
         );
     }
 }
-
+EditableTable.defaultProps={
+    data:[]
+}
 export default EditableTable;

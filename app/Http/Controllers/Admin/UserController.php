@@ -13,7 +13,8 @@ class UserController extends Controller
         $users=DB::table('users')->get();
 
         return Response::json([
-            'users'=>$users
+            'users'=>$users,
+            'code'=>200
         ],200);
     }
 }
