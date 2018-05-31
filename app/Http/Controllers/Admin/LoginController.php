@@ -5,8 +5,10 @@ use App\Model\User;
 use Session;
 use Response;
 use Redirect;
+use Mail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\OrderShipped;
 
 class LoginController extends Controller
 {
@@ -37,12 +39,12 @@ class LoginController extends Controller
                 'msg' => '登录成功',
                 'code'=>200,
                 'uid' =>$users[0]['uid']
-            ],200)->cookie('user_token', $token ,10);
+            ])->cookie('user_token', $token ,10);
         }else {
             return Response::json([
                 'msg' => '密码错误',
                 'code'=>400
-            ],200);
+            ]);
         }
     }
 
@@ -53,5 +55,23 @@ class LoginController extends Controller
         $uid=$request->get('uid');
         $request->session()->forget('users.'.$uid);
         return Redirect::to('/admin/index');
+    }
+    public function forget(Request $request){
+//        for ($i=0;$i<5;$i++){
+            $code=rand(1000,9999);
+            Mail::to('laitingyou@outlook.com')->send(new OrderShipped($code));
+//        }
+
+        if(count(Mail::failures())<1){
+            return Response::json([
+                'msg' => '发送邮件成功，请查收！',
+                'code'=>200
+            ],200);
+        }else{
+            return Response::json([
+                'msg' => '发送邮件失败，请重试！',
+                'code'=>400
+            ]);
+        }
     }
 }

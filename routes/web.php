@@ -20,5 +20,5 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'], function(){
 
     Route::get('/index',"LoginController@index");
     Route::get('/loginOut',"LoginController@loginOut");
-
+    Route::get('/forget', 'LoginController@forget');
 });
